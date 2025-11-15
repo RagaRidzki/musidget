@@ -206,11 +206,14 @@ export default async function handler(req, res) {
   res.setHeader('Content-Type', 'text/html; charset=utf-8')
   res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=86400')
   // jangan blok iframe, pakai CSP frame-ancestors saja
-  res.setHeader('X-Frame-Options', '')
+  // Jangan pakai X-Frame-Options yang restrictive
+  res.removeHeader?.('X-Frame-Options'); // aman-aman saja; kalau ga ada method ini, bisa di-skip
+
   res.setHeader(
     'Content-Security-Policy',
-    "default-src 'none'; img-src * data:; media-src *; style-src 'unsafe-inline'; script-src 'unsafe-inline'; connect-src *; frame-ancestors https://canva.com https://*.canva.com https://*.canva.site 'self'; base-uri 'none'; form-action 'none';"
-  )
+    "default-src 'none'; img-src * data:; media-src *; style-src 'unsafe-inline'; script-src 'unsafe-inline'; connect-src *; frame-ancestors *; base-uri 'none'; form-action 'none';"
+  );
+
 
   res.status(200).send(html)
 }
