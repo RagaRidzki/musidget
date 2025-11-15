@@ -58,7 +58,7 @@ export default function App() {
           <code>{link}</code>
           <div style={{ marginTop: 8 }}>HTML Embed:</div>
           <pre>{`<div class="mw-embed" data-slug="${slug}"></div>
-<script async src="${window.location.origin}/mw.js"></script>`}</pre>
+                <script async src="${window.location.origin}/mw.js"></script>`}</pre>
           <div style={{ marginTop: 8 }}>
             Canva Embed: paste URL widget → {link}
           </div>
