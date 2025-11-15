@@ -1,0 +1,8 @@
+.mw-wrap{font-family:system-ui,Arial,sans-serif; display:flex; align-items:center; gap:.75rem; padding:.75rem; border-radius:.75rem; box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.mw-cover{width:56px;height:56px;border-radius:.5rem;object-fit:cover;flex-shrink:0}
+.mw-meta{display:flex;flex-direction:column;min-width:0}
+.mw-title{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mw-artist{opacity:.7;font-size:.9em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mw-ctrls{margin-left:auto;display:flex;align-items:center;gap:.5rem}
+.mw-btn{cursor:pointer;border:0;border-radius:.5rem;padding:.4rem .6rem}
+.mw-progress{appearance:none;width:140px;height:4px;border-radius:999px;background:#e5e7eb}

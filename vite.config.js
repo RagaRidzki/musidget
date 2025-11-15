@@ -5,6 +5,9 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   plugins: [
     tailwindcss(),
-    react()
+    react(),
+    viteStaticCopy({
+      targets: [{ src: 'src/widget/mw.js', dest: '.' }]
+    })
   ],
 })
