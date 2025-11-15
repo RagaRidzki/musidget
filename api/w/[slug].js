@@ -97,7 +97,6 @@ function renderWidgetPage(widget) {
       playing = true;
       updatePlayButton();
     }).catch(function(err){
-      // kalau manual (user klik tombol), jangan spam error
       if(!isAutoAttempt){
         console.warn('Play failed:', err);
       }
@@ -155,18 +154,19 @@ function renderWidgetPage(widget) {
   if(prevBtn) prevBtn.addEventListener('click', prev);
   if(nextBtn) nextBtn.addEventListener('click', next);
 
+  // ========== INIT ==========
   load(0);
   updatePlayButton();
 
-  // dulu di sini: play();
-
-  // 1) Coba autoplay dulu (beberapa browser mungkin mengizinkan)
+  // 1) Coba autoplay dulu
   play(true).catch(function(){
-    // 2) Kalau ditolak, baru nunggu user gesture di dalam iframe
+    // 2) Kalau gagal, tunggu gesture pertama (klik/tap/keydown/scroll) di dalam iframe
     function resumeFromGesture(){
       window.removeEventListener('click', resumeFromGesture);
       window.removeEventListener('touchstart', resumeFromGesture);
       window.removeEventListener('keydown', resumeFromGesture);
+      window.removeEventListener('scroll', resumeFromGesture);
+
       play().catch(function(err){
         console.warn('Play after gesture still failed:', err);
       });
@@ -175,6 +175,8 @@ function renderWidgetPage(widget) {
     window.addEventListener('click', resumeFromGesture, { once: true });
     window.addEventListener('touchstart', resumeFromGesture, { once: true });
     window.addEventListener('keydown', resumeFromGesture, { once: true });
+    // scroll = bonus, kalau nggak dianggap gesture ya nggak apa-apa
+    window.addEventListener('scroll', resumeFromGesture, { once: true });
   });
 })();`
 
