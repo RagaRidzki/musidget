@@ -21,7 +21,7 @@ export async function uploadPublic(file, bucket) {
 
 export async function createWidget({ slug, title, coverFile, trackFiles }) {
   const cover_url = coverFile
-    ? await uploadPublic(coverFile, 'covers')
+    ? await uploadPublic(coverFile, 'cover')
     : null
 
   const tracks = []
