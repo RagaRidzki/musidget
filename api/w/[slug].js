@@ -92,11 +92,17 @@ function renderWidgetPage(widget) {
     playBtn.textContent = playing ? 'Pause' : 'Play';
   }
 
-  function play(){
-    audio.play().then(function(){
+  function play(isAutoAttempt){
+    return audio.play().then(function(){
       playing = true;
       updatePlayButton();
-    }).catch(function(){});
+    }).catch(function(err){
+      // kalau manual (user klik tombol), jangan spam error
+      if(!isAutoAttempt){
+        console.warn('Play failed:', err);
+      }
+      throw err;
+    });
   }
 
   function pause(){
@@ -149,11 +155,27 @@ function renderWidgetPage(widget) {
   if(prevBtn) prevBtn.addEventListener('click', prev);
   if(nextBtn) nextBtn.addEventListener('click', next);
 
-  // init
   load(0);
   updatePlayButton();
 
-  play();
+  // dulu di sini: play();
+
+  // 1) Coba autoplay dulu (beberapa browser mungkin mengizinkan)
+  play(true).catch(function(){
+    // 2) Kalau ditolak, baru nunggu user gesture di dalam iframe
+    function resumeFromGesture(){
+      window.removeEventListener('click', resumeFromGesture);
+      window.removeEventListener('touchstart', resumeFromGesture);
+      window.removeEventListener('keydown', resumeFromGesture);
+      play().catch(function(err){
+        console.warn('Play after gesture still failed:', err);
+      });
+    }
+
+    window.addEventListener('click', resumeFromGesture, { once: true });
+    window.addEventListener('touchstart', resumeFromGesture, { once: true });
+    window.addEventListener('keydown', resumeFromGesture, { once: true });
+  });
 })();`
 
   return `<!doctype html>
