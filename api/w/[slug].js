@@ -152,6 +152,8 @@ function renderWidgetPage(widget) {
   // init
   load(0);
   updatePlayButton();
+
+  play();
 })();`
 
   return `<!doctype html>
